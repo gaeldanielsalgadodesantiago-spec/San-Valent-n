@@ -12,7 +12,6 @@
       --text:#1a1a1a;
       --muted: rgba(26,26,26,.72);
     }
-
     *{ box-sizing:border-box; }
 
     body{
@@ -30,20 +29,20 @@
         linear-gradient(135deg, #ffffff, #fff3fb);
     }
 
-    /* Fondo con ositos (opcional) */
+    /* Fondo con ositos (opcional). Si no existe assets/intro-bears.jpg, solo se verá el gradiente. */
     .bears{
       position:absolute;
       inset:0;
       background-image: url("assets/intro-bears.jpg");
       background-size: cover;
       background-position: center;
-      opacity: .12; /* tenue para que no distraiga */
+      opacity: .12;      /* tenue */
       filter: blur(1px);
       transform: scale(1.05);
       z-index:0;
     }
 
-    /* Brillos */
+    /* Brillitos */
     .sparkles{
       position:absolute;
       inset:0;
@@ -82,10 +81,53 @@
 
     .phrase{
       font-size: clamp(22px, 5.4vw, 34px);
-      font-weight: 700;
+      font-weight: 750;
       line-height: 1.35;
       margin: 0 auto 18px;
       text-wrap: balance;
+    }
+
+    /* Cada “chunk” aparece con fade + slide */
+    .chunk{
+      display:inline;
+      opacity:0;
+      transform: translateY(10px);
+      filter: blur(2px);
+      animation: reveal .85s ease forwards;
+    }
+    @keyframes reveal{
+      to{
+        opacity:1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    /* Resaltado para la parte importante */
+    .highlight{
+      display:inline-block;
+      padding: 2px 10px;
+      margin: 6px 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255,77,166,.18), rgba(124,92,255,.16));
+      border: 1px solid rgba(255,77,166,.22);
+      box-shadow: 0 14px 30px rgba(255,77,166,.12);
+      color: rgba(26,26,26,.92);
+      font-weight: 900;
+    }
+    .highlight::after{
+      content:"";
+      display:block;
+      height:8px;
+      margin-top:-8px;
+      border-radius: 12px;
+      background: linear-gradient(
+        90deg,
+        rgba(255,77,166,.0),
+        rgba(255,77,166,.22),
+        rgba(124,92,255,.20),
+        rgba(124,92,255,.0)
+      );
     }
 
     .sub{
@@ -94,16 +136,9 @@
       line-height: 1.55;
       margin: 0 auto 26px;
       max-width: 46ch;
-    }
-
-    .type{
-      display:inline;
-      border-right: 2px solid rgba(26,26,26,.55);
-      padding-right: 2px;
-      animation: blink 1s steps(1) infinite;
-    }
-    @keyframes blink{
-      50%{ border-right-color: transparent; }
+      opacity:0;
+      transform: translateY(6px);
+      transition: .6s ease;
     }
 
     .btn{
@@ -135,7 +170,6 @@
       color: rgba(26,26,26,.45);
     }
 
-    /* Para pantallas muy pequeñas */
     @media (max-width: 360px){
       .container{ padding-top: 18px; }
     }
@@ -144,45 +178,41 @@
 
 <body>
   <div class="bears" aria-hidden="true"></div>
-
   <div class="sparkles" id="sparkles" aria-hidden="true"></div>
 
   <main class="container">
     <div class="title">Para ti, con todo mi corazón</div>
 
-    <!-- Frase principal (typewriter) -->
-    <h1 class="phrase">
-      <span id="typed" class="type"></span>
-    </h1>
+    <!-- Frase principal: aparece por frases -->
+    <h1 class="phrase" id="phraseBox"></h1>
 
     <!-- Mensaje secundario -->
-    <p class="sub" id="subText" style="opacity:0; transform: translateY(6px); transition: .6s ease;">
-      Quiero que cuando abras esto, sientas lo que yo siento:
-      <b>orgullo</b>, <b>amor</b> y unas ganas enormes de cuidarte siempre.
+    <p class="sub" id="subText">
+      Frida, si algún día dudas de ti,
+      quiero que regreses a esta página y recuerdes esto:
+      yo creo en ti más de lo que imaginas,
+      y quiero caminar contigo en cada etapa de tu vida.
     </p>
 
     <!-- Botón aparece al terminar -->
     <button class="btn" id="nextBtn">Siguiente</button>
 
-    <div class="tiny">Tip: toca la pantalla si quieres acelerar el texto.</div>
+    <div class="tiny">Tip: toca la pantalla para mostrar todo de golpe.</div>
   </main>
 
   <script>
-    // ====== EDITA AQUÍ (texto romántico) ======
-    const TEXT = [
-      "Oshita…",
-      "esto lo hice solo para ti ❤️",
-      "Quiero que cuando leas esto recuerdes algo muy importante:",
-      "eres la mujer más increíble que he conocido.",
-      "Frida, eres fuerte, eres inteligente,",
-      "y tienes un corazón que merece todo el amor del mundo.",
-      "Y yo…",
-      "yo soy el más afortunado por poder amarte."
-    ].join(" ");
+    // ====== EDITA AQUÍ (frases) ======
+    const LINES = [
+      { text: "Oshita…", highlight: false },
+      { text: "esto lo hice solo para ti ❤️", highlight: false },
+      { text: "Quiero que recuerdes algo muy importante:", highlight: false },
+      // Esto resalta
+      { text: "Frida: eres una mujer increíble. Eres suficiente. Eres valiosa.", highlight: true },
+      { text: "Y yo soy el más afortunado por poder amarte.", highlight: false }
+    ];
 
     // ====== Brillitos ======
     const sparkles = document.getElementById("sparkles");
-    const W = window.innerWidth, H = window.innerHeight;
     const count = 22;
     for(let i=0;i<count;i++){
       const s = document.createElement("div");
@@ -195,38 +225,47 @@
       sparkles.appendChild(s);
     }
 
-    // ====== Typewriter ======
-    const typedEl = document.getElementById("typed");
+    // ====== Animación por frases ======
+    const phraseBox = document.getElementById("phraseBox");
     const subText = document.getElementById("subText");
     const btn = document.getElementById("nextBtn");
+    let idx = 0;
 
-    let i = 0;
-    let speed = 28; // ms
-    let done = false;
-
-    function type(){
-      if(i <= TEXT.length){
-        typedEl.textContent = TEXT.slice(0, i);
-        i++;
-        setTimeout(type, speed + Math.random()*25);
-      }else{
-        done = true;
-        // mostrar texto secundario y botón
+    function showLine(){
+      if(idx >= LINES.length){
         subText.style.opacity = 1;
         subText.style.transform = "translateY(0)";
         setTimeout(() => btn.classList.add("show"), 400);
+        return;
       }
-    }
-    type();
 
-    // Tap para acelerar / completar
+      const span = document.createElement("span");
+      span.className = "chunk" + (LINES[idx].highlight ? " highlight" : "");
+      span.textContent = LINES[idx].text;
+
+      phraseBox.appendChild(span);
+      phraseBox.appendChild(document.createElement("br"));
+
+      idx++;
+      setTimeout(showLine, 780);
+    }
+    showLine();
+
+    // Tap: mostrar todo de golpe (por si quiere avanzar rápido)
     window.addEventListener("click", () => {
-      if(!done){
-        speed = 4; // acelera
-        // si vuelven a tocar, completa
-        if(speed === 4 && i < TEXT.length - 8){
-          i = TEXT.length;
+      if(idx < LINES.length){
+        phraseBox.innerHTML = "";
+        for(const l of LINES){
+          const span = document.createElement("span");
+          span.className = (l.highlight ? "highlight" : "");
+          span.textContent = l.text;
+          phraseBox.appendChild(span);
+          phraseBox.appendChild(document.createElement("br"));
         }
+        idx = LINES.length;
+        subText.style.opacity = 1;
+        subText.style.transform = "translateY(0)";
+        btn.classList.add("show");
       }
     });
 
