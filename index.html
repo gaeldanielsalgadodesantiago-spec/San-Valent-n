@@ -11,6 +11,8 @@
       --violet:#7c5cff;
       --text:#1a1a1a;
       --muted: rgba(26,26,26,.72);
+      --stroke: rgba(26,26,26,.12);
+      --glass: rgba(255,255,255,.68);
     }
     *{ box-sizing:border-box; }
 
@@ -29,138 +31,139 @@
         linear-gradient(135deg, #ffffff, #fff3fb);
     }
 
-    /* Fondo con ositos (opcional). Si no existe assets/intro-bears.jpg, solo se verá el gradiente. */
+    /* Fondo ositos opcional */
     .bears{
       position:absolute;
       inset:0;
       background-image: url("assets/intro-bears.jpg");
       background-size: cover;
       background-position: center;
-      opacity: .12;      /* tenue */
+      opacity: .10;
       filter: blur(1px);
       transform: scale(1.05);
       z-index:0;
     }
 
-    /* Brillitos */
-    .sparkles{
+    /* Capa de corazones flotando */
+    .hearts{
       position:absolute;
       inset:0;
       pointer-events:none;
       z-index:1;
+      overflow:hidden;
     }
-    .sparkle{
+
+    /* Corazón elegante (CSS) */
+    .heart{
       position:absolute;
-      width:6px; height:6px;
-      border-radius:999px;
-      background: white;
-      opacity:.55;
-      filter: drop-shadow(0 0 12px rgba(255,77,166,.7));
-      animation: float 5.5s ease-in-out infinite;
+      width:18px;
+      height:18px;
+      opacity:.35;
+      transform: rotate(45deg);
+      border-radius: 4px;
+      background: linear-gradient(135deg, rgba(255,77,166,.55), rgba(124,92,255,.45));
+      filter: drop-shadow(0 10px 18px rgba(255,77,166,.18));
+      animation: floatUp linear infinite;
     }
-    @keyframes float{
-      0%,100%{ transform: translateY(0) scale(1); opacity:.45; }
-      50%{ transform: translateY(-18px) scale(1.2); opacity:.75; }
+    .heart::before,
+    .heart::after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:18px;
+      border-radius: 50%;
+      background: inherit;
     }
+    .heart::before{ left:-9px; top:0; }
+    .heart::after{ left:0; top:-9px; }
 
-    /* Contenido */
-    .container{
-      position:relative;
-      z-index:2;
-      width:min(560px, 92vw);
-      padding: 26px 20px 18px;
-      text-align:center;
-    }
-
-    .title{
-      font-size: 14px;
-      letter-spacing:.4px;
-      color: rgba(26,26,26,.55);
-      margin-bottom: 14px;
-    }
-
-    .phrase{
-      font-size: clamp(22px, 5.4vw, 34px);
-      font-weight: 750;
-      line-height: 1.35;
-      margin: 0 auto 18px;
-      text-wrap: balance;
-    }
-
-    /* Cada “chunk” aparece con fade + slide */
-    .chunk{
-      display:inline;
-      opacity:0;
-      transform: translateY(10px);
-      filter: blur(2px);
-      animation: reveal .85s ease forwards;
-    }
-    @keyframes reveal{
+    @keyframes floatUp{
+      from{
+        transform: translateY(110vh) rotate(45deg);
+      }
       to{
-        opacity:1;
-        transform: translateY(0);
-        filter: blur(0);
+        transform: translateY(-20vh) rotate(45deg);
       }
     }
 
-    /* Resaltado para la parte importante */
-    .highlight{
-      display:inline-block;
-      padding: 2px 10px;
-      margin: 6px 0;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(255,77,166,.18), rgba(124,92,255,.16));
-      border: 1px solid rgba(255,77,166,.22);
-      box-shadow: 0 14px 30px rgba(255,77,166,.12);
-      color: rgba(26,26,26,.92);
-      font-weight: 900;
-    }
-    .highlight::after{
-      content:"";
-      display:block;
-      height:8px;
-      margin-top:-8px;
-      border-radius: 12px;
-      background: linear-gradient(
-        90deg,
-        rgba(255,77,166,.0),
-        rgba(255,77,166,.22),
-        rgba(124,92,255,.20),
-        rgba(124,92,255,.0)
-      );
+    /* Layout */
+    .container{
+      position:relative;
+      z-index:2;
+      width:min(640px, 92vw);
+      padding: 22px 18px 18px;
+      text-align:center;
     }
 
-    .sub{
-      font-size: clamp(14px, 3.8vw, 17px);
-      color: var(--muted);
+    /* Encabezado minimal con dot */
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom: 14px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      box-shadow: 0 10px 24px rgba(255,77,166,.28);
+      flex:0 0 auto;
+    }
+    .title{
+      font-size: 14px;
+      letter-spacing:.3px;
+      color: rgba(26,26,26,.62);
+      font-weight: 700;
+    }
+
+    /* Burbuja redondeada (círculo/cápsula grande) */
+    .bubble{
+      margin: 10px auto 18px;
+      padding: 18px 16px;
+      width: 100%;
+      max-width: 560px;
+
+      border-radius: 999px; /* súper redondeado */
+      background:
+        linear-gradient(135deg, rgba(255,77,166,.14), rgba(124,92,255,.12)),
+        rgba(255,255,255,.55);
+      border: 1px solid rgba(255,77,166,.18);
+
+      box-shadow:
+        0 22px 60px rgba(0,0,0,.10),
+        0 18px 44px rgba(255,77,166,.10);
+
+      backdrop-filter: blur(10px);
+    }
+
+    .message{
+      margin:0;
+      font-size: clamp(16px, 4.5vw, 20px);
       line-height: 1.55;
-      margin: 0 auto 26px;
-      max-width: 46ch;
-      opacity:0;
-      transform: translateY(6px);
-      transition: .6s ease;
+      color: rgba(26,26,26,.88);
+      font-weight: 750;
+      text-wrap: balance;
     }
 
+    .accent{
+      font-weight: 900;
+      color: rgba(26,26,26,.96);
+      padding: 0 2px;
+    }
+
+    /* Botón */
     .btn{
       appearance:none;
       border:none;
       border-radius:999px;
-      padding: 14px 26px;
+      padding: 14px 28px;
       font-size:16px;
-      font-weight: 750;
+      font-weight: 800;
       cursor:pointer;
       color:white;
       background: linear-gradient(135deg, rgba(255,77,166,1), rgba(124,92,255,1));
       box-shadow: 0 14px 34px rgba(0,0,0,.16);
-      transform: translateY(6px);
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .5s ease, transform .5s ease;
-    }
-    .btn.show{
-      opacity:1;
-      transform: translateY(0);
-      pointer-events:auto;
+      transition: transform .12s ease;
     }
     .btn:active{ transform: scale(.98); }
 
@@ -170,109 +173,36 @@
       color: rgba(26,26,26,.45);
     }
 
-    @media (max-width: 360px){
-      .container{ padding-top: 18px; }
+    /* En pantallas muy pequeñas, hacemos la burbuja menos “larga” */
+    @media (max-width: 420px){
+      .bubble{ border-radius: 26px; }
     }
   </style>
 </head>
 
 <body>
   <div class="bears" aria-hidden="true"></div>
-  <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
 
   <main class="container">
-    <div class="title">Para ti, con todo mi corazón</div>
+    <div class="header">
+      <span class="dot"></span>
+      <div class="title">Para ti Oshita, con todo mi corazón, Feliz San Valentín</div>
+    </div>
 
-    <!-- Frase principal: aparece por frases -->
-    <h1 class="phrase" id="phraseBox"></h1>
+    <div class="bubble">
+      <p class="message">
+        <span class="accent">Frida</span>, eres fuerte, eres inteligente y tienes un
+        <span class="accent">corazón</span> que merece todo el amor del mundo.
+        Y yo… yo soy el <span class="accent">más</span> afortunado por poder amarte.
+      </p>
+    </div>
 
-    <!-- Mensaje secundario -->
-    <p class="sub" id="subText">
-      Frida, si algún día dudas de ti,
-      quiero que regreses a esta página y recuerdes esto:
-      yo creo en ti más de lo que imaginas,
-      y quiero caminar contigo en cada etapa de tu vida.
-    </p>
-
-    <!-- Botón aparece al terminar -->
     <button class="btn" id="nextBtn">Siguiente</button>
 
-    <div class="tiny">Tip: toca la pantalla para mostrar todo de golpe.</div>
+    <div class="tiny">Hecho con amor 🤍</div>
   </main>
 
   <script>
-    // ====== EDITA AQUÍ (frases) ======
-    const LINES = [
-      { text: "Oshita…", highlight: false },
-      { text: "esto lo hice solo para ti ❤️", highlight: false },
-      { text: "Quiero que recuerdes algo muy importante:", highlight: false },
-      // Esto resalta
-      { text: "Frida: eres una mujer increíble. Eres suficiente. Eres valiosa.", highlight: true },
-      { text: "Y yo soy el más afortunado por poder amarte.", highlight: false }
-    ];
-
-    // ====== Brillitos ======
-    const sparkles = document.getElementById("sparkles");
-    const count = 22;
-    for(let i=0;i<count;i++){
-      const s = document.createElement("div");
-      s.className = "sparkle";
-      s.style.left = Math.random()*100 + "%";
-      s.style.top = Math.random()*100 + "%";
-      s.style.animationDelay = (Math.random()*3) + "s";
-      s.style.opacity = (0.35 + Math.random()*0.4).toFixed(2);
-      s.style.transform = `scale(${0.7 + Math.random()*1.2})`;
-      sparkles.appendChild(s);
-    }
-
-    // ====== Animación por frases ======
-    const phraseBox = document.getElementById("phraseBox");
-    const subText = document.getElementById("subText");
-    const btn = document.getElementById("nextBtn");
-    let idx = 0;
-
-    function showLine(){
-      if(idx >= LINES.length){
-        subText.style.opacity = 1;
-        subText.style.transform = "translateY(0)";
-        setTimeout(() => btn.classList.add("show"), 400);
-        return;
-      }
-
-      const span = document.createElement("span");
-      span.className = "chunk" + (LINES[idx].highlight ? " highlight" : "");
-      span.textContent = LINES[idx].text;
-
-      phraseBox.appendChild(span);
-      phraseBox.appendChild(document.createElement("br"));
-
-      idx++;
-      setTimeout(showLine, 780);
-    }
-    showLine();
-
-    // Tap: mostrar todo de golpe (por si quiere avanzar rápido)
-    window.addEventListener("click", () => {
-      if(idx < LINES.length){
-        phraseBox.innerHTML = "";
-        for(const l of LINES){
-          const span = document.createElement("span");
-          span.className = (l.highlight ? "highlight" : "");
-          span.textContent = l.text;
-          phraseBox.appendChild(span);
-          phraseBox.appendChild(document.createElement("br"));
-        }
-        idx = LINES.length;
-        subText.style.opacity = 1;
-        subText.style.transform = "translateY(0)";
-        btn.classList.add("show");
-      }
-    });
-
-    // Siguiente (por ahora apunta a home.html)
-    btn.addEventListener("click", () => {
-      window.location.href = "home.html";
-    });
-  </script>
-</body>
-</html>
+    // Crea corazones elegantes (CSS) flotando
+    const heartsLayer = document.getElementById("hearts"
