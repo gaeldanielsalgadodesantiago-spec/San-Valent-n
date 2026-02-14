@@ -42,17 +42,19 @@
     font-weight:600;
   }
 
-  /* Recuadro para el video: 19:6 */
+  /* Recuadro para el video: Vertical 9:16 */
   .frame{
-    width: 100%;
-    aspect-ratio: 19 / 6;
-    background: rgba(255,255,255,.70);
+    width: min(360px, 92vw);     /* ancho ideal para celular */
+    aspect-ratio: 9 / 16;        /* formato vertical */
+    margin: 0 auto;              /* centrado */
+    background: rgba(255,255,255,.75);
     border: 1px solid rgba(255,77,166,.18);
-    border-radius: 18px;
-    box-shadow: 0 20px 50px var(--shadow);
-    overflow:hidden;
+    border-radius: 22px;
+    box-shadow: 0 25px 60px rgba(0,0,0,.12);
+    overflow: hidden;
     backdrop-filter: blur(8px);
   }
+
 
   video{
     width:100%;
@@ -103,11 +105,16 @@
       </video>
     </div>
 
-    <div class="actions">
-      <button onclick="location.href='carta.html'">Volver</button>
-      <!-- Opcional: si después haces futuro.html -->
-      <!-- <button onclick="location.href='futuro.html'">Siguiente</button> -->
-    </div>
+<div style="text-align:center; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+  <button onclick="location.href='carta.html'">
+    Volver
+  </button>
+
+  <button onclick="location.href='index.html'">
+    Home
+  </button>
+</div>
+
 
     <div class="hint">Tip: si no carga, revisa el nombre exacto del archivo y la extensión.</div>
   </div>
