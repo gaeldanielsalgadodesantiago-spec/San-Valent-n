@@ -1,200 +1,216 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Para Ti ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Ti ❤️</title>
 
-  <style>
-    :root{
-      --pink:#ff4da6;
-      --violet:#7c5cff;
-      --text:#1a1a1a;
-      --muted: rgba(26,26,26,.72);
-      --stroke: rgba(26,26,26,.12);
-      --glass: rgba(255,255,255,.68);
-    }
-    *{ box-sizing:border-box; }
+<style>
+:root{
+  --pink:#ff4da6;
+  --violet:#7c5cff;
+  --text:#1a1a1a;
+}
 
-    body{
-      margin:0;
-      height:100vh;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1000px 700px at 20% 10%, #fff0f7, transparent 60%),
-        radial-gradient(900px 600px at 80% 20%, #f2f0ff, transparent 60%),
-        linear-gradient(135deg, #ffffff, #fff3fb);
-    }
+*{box-sizing:border-box;}
 
-    /* Fondo ositos opcional */
-    .bears{
-      position:absolute;
-      inset:0;
-      background-image: url("assets/intro-bears.jpg");
-      background-size: cover;
-      background-position: center;
-      opacity: .10;
-      filter: blur(1px);
-      transform: scale(1.05);
-      z-index:0;
-    }
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(1000px 700px at 20% 10%, #fff0f7, transparent 60%),
+    radial-gradient(900px 600px at 80% 20%, #f2f0ff, transparent 60%),
+    linear-gradient(135deg,#ffffff,#fff3fb);
+}
 
-    /* Capa de corazones flotando */
-    .heart{
-      position:absolute;
-      width:22px;
-      height:22px;
-      transform: rotate(45deg);
-      border-radius:4px;
-      background: linear-gradient(135deg, #ff4da6, #7c5cff);
-      opacity:.5;
-      animation: floatUp linear infinite;
-    }
+/* ===== CORAZONES ===== */
 
-    .heart::before,
-    .heart::after{
-      content:"";
-      position:absolute;
-      width:22px;
-      height:22px;
-      border-radius:50%;
-      background: inherit;
-    }
+.hearts{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
 
-    .heart::before{ left:-11px; top:0; }
-    .heart::after{ left:0; top:-11px; }
+.heart{
+  position:absolute;
+  width:24px;
+  height:24px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg,#ff4da6,#7c5cff);
+  border-radius:6px;
+  opacity:.8;
+  animation: floatUp linear infinite;
+}
 
-    @keyframes floatUp{
-      from{
-        transform: translateY(110vh) rotate(45deg);
-      }
-      to{
-        transform: translateY(-20vh) rotate(45deg);
-      }
-    }
+.heart::before,
+.heart::after{
+  content:"";
+  position:absolute;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:inherit;
+}
 
-    /* Layout */
-    .container{
-      position:relative;
-      z-index:2;
-      width:min(640px, 92vw);
-      padding: 22px 18px 18px;
-      text-align:center;
-    }
+.heart::before{ left:-12px; top:0; }
+.heart::after{ left:0; top:-12px; }
 
-    /* Encabezado minimal con dot */
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      margin-bottom: 14px;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background: linear-gradient(135deg, var(--pink), var(--violet));
-      box-shadow: 0 10px 24px rgba(255,77,166,.28);
-      flex:0 0 auto;
-    }
-    .title{
-      font-size: 14px;
-      letter-spacing:.3px;
-      color: rgba(26,26,26,.62);
-      font-weight: 700;
-    }
+@keyframes floatUp{
+  from{
+    transform: translateY(110vh) rotate(45deg);
+  }
+  to{
+    transform: translateY(-20vh) rotate(45deg);
+  }
+}
 
-    /* Burbuja redondeada (círculo/cápsula grande) */
-    .bubble{
-      margin: 10px auto 18px;
-      padding: 18px 16px;
-      width: 100%;
-      max-width: 560px;
+/* ===== CONTENIDO ===== */
 
-      border-radius: 999px; /* súper redondeado */
-      background:
-        linear-gradient(135deg, rgba(255,77,166,.14), rgba(124,92,255,.12)),
-        rgba(255,255,255,.55);
-      border: 1px solid rgba(255,77,166,.18);
+.container{
+  position:relative;
+  z-index:2;
+  width:90%;
+  max-width:500px;
+  text-align:center;
+}
 
-      box-shadow:
-        0 22px 60px rgba(0,0,0,.10),
-        0 18px 44px rgba(255,77,166,.10);
+.header{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  margin-bottom:20px;
+}
 
-      backdrop-filter: blur(10px);
-    }
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--pink),var(--violet));
+  box-shadow:0 0 15px rgba(255,77,166,.4);
+}
 
-    .message{
-      margin:0;
-      font-size: clamp(16px, 4.5vw, 20px);
-      line-height: 1.55;
-      color: rgba(26,26,26,.88);
-      font-weight: 750;
-      text-wrap: balance;
-    }
+.title{
+  font-size:14px;
+  font-weight:600;
+  color:#444;
+}
 
-    .accent{
-      font-weight: 900;
-      color: rgba(26,26,26,.96);
-      padding: 0 2px;
-    }
+.bubble{
+  padding:25px 20px;
+  border-radius:30px;
+  background:
+    linear-gradient(135deg, rgba(255,77,166,.15), rgba(124,92,255,.15)),
+    rgba(255,255,255,.7);
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+  backdrop-filter:blur(10px);
+  margin-bottom:25px;
+}
 
-    /* Botón */
-    .btn{
-      appearance:none;
-      border:none;
-      border-radius:999px;
-      padding: 14px 28px;
-      font-size:16px;
-      font-weight: 800;
-      cursor:pointer;
-      color:white;
-      background: linear-gradient(135deg, rgba(255,77,166,1), rgba(124,92,255,1));
-      box-shadow: 0 14px 34px rgba(0,0,0,.16);
-      transition: transform .12s ease;
-    }
-    .btn:active{ transform: scale(.98); }
+.message{
+  font-size:18px;
+  font-weight:600;
+  line-height:1.6;
+  color:#222;
+}
 
-    .tiny{
-      margin-top: 12px;
-      font-size: 12px;
-      color: rgba(26,26,26,.45);
-    }
+.message strong{
+  font-weight:800;
+}
 
-    /* En pantallas muy pequeñas, hacemos la burbuja menos “larga” */
-    @media (max-width: 420px){
-      .bubble{ border-radius: 26px; }
-    }
-  </style>
+button{
+  padding:14px 30px;
+  font-size:16px;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg,#ff4da6,#7c5cff);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  transition:.2s;
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+.footer{
+  margin-top:15px;
+  font-size:12px;
+  color:#777;
+}
+
+</style>
 </head>
 
 <body>
-  <div class="bears" aria-hidden="true"></div>
-  <div class="hearts" id="hearts" aria-hidden="true"></div>
 
-  <main class="container">
-    <div class="header">
-      <span class="dot"></span>
-      <div class="title">Para ti Oshita, con todo mi corazón, Feliz San Valentín</div>
+<div class="hearts" id="hearts"></div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="dot"></div>
+    <div class="title">
+      Para ti Oshita, con todo mi corazón, Feliz San Valentín
     </div>
+  </div>
 
-    <div class="bubble">
-      <p class="message">
-        <span class="accent">Frida</span>, eres fuerte, eres inteligente y tienes un
-        <span class="accent">corazón</span> que merece todo el amor del mundo.
-        Y yo… yo soy el <span class="accent">más</span> afortunado por poder amarte.
-      </p>
-    </div>
+  <div class="bubble">
+    <p class="message">
+      <strong>Frida</strong>, eres fuerte, eres inteligente y tienes un 
+      <strong>corazón</strong> que merece todo el amor del mundo.
+      Y yo… yo soy el <strong>más</strong> afortunado por poder amarte.
+    </p>
+  </div>
 
-    <button class="btn" id="nextBtn">Siguiente</button>
+  <button onclick="location.href='home.html'">
+    Siguiente
+  </button>
 
-    <div class="tiny">Hecho con amor 🤍</div>
-  </main>
+  <div class="footer">
+    Hecho con todo mi amor ❤️
+  </div>
 
-  <script>
-    // Crea corazones elegantes (CSS) flotando
-    const heartsLayer = document.getElementById("hearts"
+</div>
+
+<script>
+const heartsContainer = document.getElementById("hearts");
+
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+
+  const size = 18 + Math.random()*20;
+  heart.style.width = size + "px";
+  heart.style.height = size + "px";
+
+  heart.style.left = Math.random()*100 + "%";
+  heart.style.animationDuration = 6 + Math.random()*6 + "s";
+
+  heartsContainer.appendChild(heart);
+
+  heart.addEventListener("animationend",()=>{
+    heart.remove();
+  });
+}
+
+// Generar corazones constantemente
+setInterval(createHeart,400);
+
+// Generar algunos al inicio
+for(let i=0;i<12;i++){
+  setTimeout(createHeart,i*200);
+}
+</script>
+
+</body>
+</html>
